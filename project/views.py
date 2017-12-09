@@ -21,7 +21,7 @@ def login_required(test):
 	return wrap
 
 
-@app.route('logout')
+@app.route('/logout')
 def logout():
 	session.pop('logged_in', None)
 	flash("Goodbye")
@@ -40,4 +40,5 @@ def login():
 			return redirect(url_for('tasks'))
 
 	return render_template('login.html')
-	
+
+
