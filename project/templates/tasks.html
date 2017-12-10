@@ -7,7 +7,7 @@
   <h3>Add a new task:</h3>
   <table>
     <tr>
-      <form action="{{ url_for('new_task') }}" method="post">
+      <form action="{{ url_for('create_task') }}" method="post">
         <td>
           <label>Task Name:</label>
           <input name="name" type="text">
@@ -60,8 +60,8 @@
           <td width="100px">{{ task.due_date }}</td>
           <td width="50px">{{ task.priority }}</td>
           <td>
-            <a href="{{ url_for('delete_entry', task_id = task.task_id) }}">Delete</a>  -
-            <a href="{{ url_for('complete', task_id = task.task_id) }}">Mark as Complete</a>
+            <a href="{{ url_for('delete_task', task_id = task.task_id) }}">Delete</a>  -
+            <a href="{{ url_for('mark_complete', task_id = task.task_id) }}">Mark as Complete</a>
           </td>
         </tr>
       {% endfor %}
