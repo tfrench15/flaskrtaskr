@@ -1,7 +1,8 @@
 import sqlite3
 from functools import wraps
-
 from flask import Flask, flash, redirect, render_template, request, session, url_for, g 
+from forms import AddTaskForm
+
 
 app = Flask(__name__)
 app.config.from_object('_config')
@@ -100,6 +101,8 @@ def delete_task(task_id):
 
 	flash("The task was deleted successfully.")
 	return redirect(url_for('tasks'))
+
+
 
 
 
