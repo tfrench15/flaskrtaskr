@@ -2,6 +2,7 @@ import sqlite3
 from functools import wraps
 from flask import Flask, flash, redirect, render_template, request, session, url_for, g 
 from forms import AddTaskForm
+import pdb
 
 
 app = Flask(__name__)
@@ -51,6 +52,10 @@ def tasks():
 		dict(name = row[0], due_date = row[1], priority = row[2], task_id = row[3]) for row in cursor.fetchall()
 		]
 
+	cursor = g.db.execute("SELECT name, due_date, priority, task_id FROM Tasks WHERE status =1")
+	open_tasks = [
+		dict(name = row[0], due_date = row[1], priority = row[2], task_id = row[3]) for row in cursor.fetchall()]
+
 	g.db.close()
 	return render_template(
 		'tasks.html',
@@ -60,7 +65,7 @@ def tasks():
 		)
 
 
-@app.route('/add/', methods = ['POST'])
+@app.route('/add', methods = ['POST'])
 @login_required
 def create_task():
 	g.db = connect_db()
@@ -83,7 +88,7 @@ def create_task():
 @app.route('/complete/<int:task_id>/')
 @login_required
 def mark_complete(task_id):
-	g.db.connect_db()
+	g.db = connect_db()
 	g.db.execute("UPDATE Tasks SET status = 0 WHERE task_id =" + str(task_id))
 	g.db.commit()
 	g.db.close()
@@ -94,7 +99,7 @@ def mark_complete(task_id):
 @app.route('/delete/int:<task_id>/')
 @login_required
 def delete_task(task_id):
-	g.db.connect_db()
+	g.db = connect_db()
 	g.db.execute("DELETE FROM Tasks WHERE task_id =" + str(task_id))
 	g.db.commit()
 	g.db.close()
