@@ -76,8 +76,10 @@ def create_task():
 		flash("All fields are required.  Please try again.")
 		return(redirect(url_for('tasks')))
 	else:
-		g.db.execute("INSERT INTO Tasks (name, due_date, priority, status VALUES (?, ?, ?, 1)", 
-			[request.form['name'], request.form['due_date'], request.form['priority]']])
+		g.db.execute("INSERT INTO Tasks (name, due_date, priority, status) VALUES (?, ?, ?, 1)", [
+			request.form['name'], 
+			request.form['due_date'], 
+			request.form['priority]']])
 
 	g.db.commit()
 	g.db.close()
