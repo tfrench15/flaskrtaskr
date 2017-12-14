@@ -1,21 +1,22 @@
-import sqlite3
+
 from functools import wraps
 
 from forms import AddTaskForm
 from flask import Flask, flash, redirect, render_template, \
     request, session, url_for, g
+from flask_sqlalchemy import SQLAlchemy 
 
 
 # config
 
 app = Flask(__name__)
 app.config.from_object('_config')
+db = SQLAlchemy(app)
+
+from models import Task 
 
 
 # helper functions
-
-def connect_db():
-    return sqlite3.connect(app.config['DATABASE_PATH'])
 
 
 def login_required(test):
