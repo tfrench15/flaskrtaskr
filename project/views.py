@@ -111,7 +111,7 @@ def delete_task(task_id):
 def register():
 	error = None
 	form = RegisterForm(request.form)
-	if request.method = 'POST':
+	if request.method == 'POST':
 		if form.validate_on_submit():
 			new_user = User(
 				form.name.data,
@@ -123,7 +123,7 @@ def register():
 			flash("Thanks for registering. Please login.")
 			return redirect(url_for('login'))
 	return render_template('register.html', form = form, error = error)
-	
+
 
 
 
