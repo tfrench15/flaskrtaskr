@@ -66,8 +66,6 @@ def login():
 @app.route('/tasks/')
 @login_required
 def tasks():
-    open_tasks = db.session.query(Task).filter_by(status='1').order_by(Task.due_date.asc())
-    closed_tasks = db.session.query(Task).filter_by(status='0').order_by(Task.due_date.asc())
     return render_template(
     	'tasks.html',
     	form = AddTaskForm(request.form),
@@ -96,9 +94,13 @@ def create_task():
 			db.session.commit()
 			flash('New entry was successfully posted.')
 			return redirect(url_for('tasks'))
-		else:
-			return render_template('tasks.html', form = form, error = error)
-	return render_template('tasks.html', form = form, error = error)
+	return render_template(
+		'tasks.html', 
+		form = form, 
+		error = error,
+		open_tasks = open_tasks(),
+		closed_tasks = closed_tasks()
+	)
 
 
 # Mark tasks as complete
@@ -145,6 +147,12 @@ def flash_errors(form):
 		for error in errors:
 			flash("Error in the %s field - %s" % (
 				getattr(form, field).label.text, error), 'error')
+
+def open_tasks():
+	return db.session.query(Task).filter_by(status = '1').order_by(Task.due_date.asc())
+
+def closed_tasks():
+	return db.session.query(Task).filter_by(status = '0').order_by(Task.due_date.asc())
 
 
 
