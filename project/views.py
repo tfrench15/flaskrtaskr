@@ -80,6 +80,7 @@ def tasks():
 @app.route('/add', methods=['GET', 'POST'])
 @login_required
 def create_task():
+	error = None
 	form = AddTaskForm(request.form)
 	if request.method == 'POST':
 		if form.validate_on_submit():
@@ -94,7 +95,10 @@ def create_task():
 			db.session.add(new_task)
 			db.session.commit()
 			flash('New entry was successfully posted.')
-	return redirect(url_for('tasks', form = form))
+			return redirect(url_for('tasks'))
+		else:
+			return render_template('tasks.html', form = form, error = error)
+	return render_template('tasks.html', form = form, error = error)
 
 
 # Mark tasks as complete
