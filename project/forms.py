@@ -20,7 +20,7 @@ class AddTaskForm(Form):
 	status = IntegerField('Status')
 
 
-class RegisterForm(FlaskForm):
+class RegisterForm(Form):
 	name = StringField(
 		'Username',
 		validators = [DataRequired(), Length(min = 6, max = 25)]
@@ -38,7 +38,7 @@ class RegisterForm(FlaskForm):
 		validators = [DataRequired(), EqualTo('password', message = 'Passwords must match')]
 	)
 
-class LoginForm(FlaskForm):
+class LoginForm(Form):
 	name = StringField(
 		'Username',
 		validators = [DataRequired()]
