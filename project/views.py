@@ -62,6 +62,11 @@ def login():
 
 	return render_template('login.html', form = form, error = error)
 
+def open_tasks():
+	return db.session.query(Task).filter_by(status = '1').order_by(Task.due_date.asc())
+
+def closed_tasks():
+	return db.session.query(Task).filter_by(status = '0').order_by(Task.due_date.asc())
 
 @app.route('/tasks/')
 @login_required
@@ -148,11 +153,7 @@ def flash_errors(form):
 			flash("Error in the %s field - %s" % (
 				getattr(form, field).label.text, error), 'error')
 
-def open_tasks():
-	return db.session.query(Task).filter_by(status = '1').order_by(Task.due_date.asc())
 
-def closed_tasks():
-	return db.session.query(Task).filter_by(status = '0').order_by(Task.due_date.asc())
 
 
 
