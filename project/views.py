@@ -31,6 +31,12 @@ def login_required(test):
             return redirect(url_for('login'))
     return wrap
 
+def open_tasks():
+	return db.session.query(Task).filter_by(status = '1').order_by(Task.due_date.asc())
+
+def closed_tasks():
+	return db.session.query(Task).filter_by(status = '0').order_by(Task.due_date.asc())
+
 
 # route handlers
 
@@ -62,11 +68,6 @@ def login():
 
 	return render_template('login.html', form = form, error = error)
 
-def open_tasks():
-	return db.session.query(Task).filter_by(status = '1').order_by(Task.due_date.asc())
-
-def closed_tasks():
-	return db.session.query(Task).filter_by(status = '0').order_by(Task.due_date.asc())
 
 @app.route('/tasks/')
 @login_required
