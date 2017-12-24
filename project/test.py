@@ -72,7 +72,7 @@ class AllTests(unittest.TestCase):
 			'helloworld',
 			'helloworld'
 		)
-		self.assertIn(b'Thanks for registering. Please login.', response.data)
+		self.assertIn(b'Please register to access the task list', response.data)
 
 
 
