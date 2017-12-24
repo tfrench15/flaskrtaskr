@@ -74,6 +74,20 @@ class AllTests(unittest.TestCase):
 		)
 		self.assertIn(b'Please register to access the task list', response.data)
 
+	def logout(self):
+		return self.app.get('logout/', follow_redirects = True)
+
+	def logged_in_users_can_logout(self):
+		self.register('Amanda', 'amandabfrench@gmail.com', 'camelback', 'camelback')
+		self.login('Amanda', 'camelback')
+		response = self.logout()
+		self.assertIn(b'Goodbye', response.data)
+
+	def test_not_logged_in_users_cannot_logout(self):
+		response = self.logout()
+		self.assertNotIn(b'Goodbye', response.data)
+
+
 
 
 if __name__ == "__main__":
