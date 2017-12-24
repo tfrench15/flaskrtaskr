@@ -97,6 +97,41 @@ class AllTests(unittest.TestCase):
 	def test_not_logged_in_users_cannot_access_tasks_page(self):
 		response = self.app.get('tasks/', follow_redirects = True)
 		self.assertIn(b'You need to login first', response.data)
+
+	def create_user(self, name, email, password):
+		new_user = User(name = name, email = email, password = password)
+		db.session.add(new_user)
+		db.session.commit()
+
+	def create_task(self):
+		return self.app.post('add/', data = dict(
+			name = 'Go to the bank',
+			due_date = '01/01/2018',
+			priority = '1',
+			posted_date = '12/24/2017',
+			status = '1'
+			), follow_redirects = True
+		)
+
+	def test_users_can_add_tasks(self):
+		self.create_user('Amanda', 'amandabfrench@gmail.com', 'camelback')
+		self.login('Amanda', 'camelback')
+		self.app.get('tasks/', follow_redirects = True)
+		response = self.create_task()
+		self.assertIn(b'New entry was successfully posted', response.data)
+
+	def test_users_cannot_add_task_when_error(self):
+		self.create_user('Amanda', 'amandabfrench@gmail.com', 'camelback')
+		self.login('Amanda', 'camelback')
+		self.app.get('tasks/', follow_redirects = True)
+		response = self.app.post('add/', data = dict(
+			name = 'Go to the bank', 
+			due_date = '',
+			priority = '1',
+			posted_date = '12/24/2017',
+			status = '1'
+		), follow_redirects = True)
+		self.assertIn(b'This field is required', response.data)
 		
 
 
