@@ -87,6 +87,15 @@ class AllTests(unittest.TestCase):
 		response = self.logout()
 		self.assertNotIn(b'Goodbye', response.data)
 
+	def test_logged_in_users_can_access_tasks(self):
+		self.register('Amanda', 'amandabfrench@gmail.com', 'camelback', 'camelback')
+		self.login('Amanda', 'camelback')
+		response = self.app.get('tasks/')
+		self.assertEqual(response.status_code, 200)
+		self.assertIn(b'Add a new task', response.data)
+		
+
+
 
 
 
