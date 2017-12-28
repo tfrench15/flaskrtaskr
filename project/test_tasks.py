@@ -96,5 +96,5 @@ class TestTasks(unittest.TestCase):
 		self.assertNotIn(b'You can only update tasks that belong to you', response.data)
 
 	
-
-
+if __name__ == "__main__":
+	unittest.main()
