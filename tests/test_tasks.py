@@ -147,6 +147,13 @@ class TestTasks(unittest.TestCase):
 		response = self.app.get("delete/1/", follow_redirects = True)
 		self.assertNotIn(b'You can only update tasks that belong to you', response.data)
 
+	def test_task_template_displays_logged_in_user_name(self):
+		self.register("Amanda", "amandabfrench@gmail.com", "camelback", "camelback")
+		self.login("Amanda", "camelback")
+		response = self.app.get('tasks/', follow_redirects = True)
+		self.assertIn(b"Amanda", response.data)
+		
+
 	
 if __name__ == "__main__":
 	unittest.main()
