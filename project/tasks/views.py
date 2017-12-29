@@ -67,14 +67,15 @@ def new_task():
                 form.name.data,
                 form.due_date.data,
                 form.priority.data,
-                datetime.datetime.utcnow(),
                 '1',
-                session['user_id']
+                session['user_id'],
+                datetime.datetime.utcnow()
             )
             db.session.add(new_task)
             db.session.commit()
             flash('New entry was successfully posted. Thanks.')
             return redirect(url_for('tasks.tasks'))
+   
     return render_template(
         'tasks.html',
         form=form,
