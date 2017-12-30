@@ -53,7 +53,7 @@ def tasks():
         form=AddTaskForm(request.form),
         open_tasks=open_tasks(),
         closed_tasks=closed_tasks(),
-        username = session['username']
+        username = session['name']
     )
 
 
@@ -114,3 +114,4 @@ def delete_entry(task_id):
     else:
         flash('You can only delete tasks that belong to you.')
         return redirect(url_for('tasks.tasks'))
+
