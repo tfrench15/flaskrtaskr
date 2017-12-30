@@ -152,7 +152,39 @@ class TestTasks(unittest.TestCase):
 		self.login("Amanda", "camelback")
 		response = self.app.get('tasks/', follow_redirects = True)
 		self.assertIn(b"Amanda", response.data)
-		
+
+	def test_users_cannot_see_task_modify_links_for_tasks_not_created_by_them(self):
+		self.register("Amanda", "amandabfrench@gmail.com", "camelback", "camelback")
+		self.login("Amanda", "camelback")
+		self.app.get("tasks/", follow_redirects = True)
+		self.create_task()
+		self.logout()
+		self.register("Jenn", "jennfrench@gmail.com", "hoboken", "hoboken")
+		self.login("Jenn", "hoboken")
+		response = self.app.get("tasks/", follow_redirects = True)
+		self.assertNotIn(b"Mark as complete", response.data)
+		self.assertNotIn(b"Delete", response.data)
+
+	def test_users_can_see_task_modify_links_for_tasks_created_by_them(self):
+		self.register("Amanda", "amandabfrench@gmail.com", "camelback", "camelback")
+		self.login("Amanda", "camelback")
+		self.create_task()
+		response = self.app.get("tasks/", follow_redirects = True)
+		self.assertIn(b"Mark as complete", response.data)
+		self.assertIn(b"Delete", response.data)
+
+	def test_admin_users_can_see_task_modify_links_for_all_tasks(self):
+		self.register("Amanda", "amandabfrench@gmail.com", "camelback", "camelback")
+		self.login("Amanda", "camelback")
+		self.app.get("tasks/", follow_redirects = True)
+		self.create_task()
+		self.logout()
+		self.create_admin_user()
+		self.login("Superman", "allpowerful")
+		response = self.app.get("tasks/", follow_redirects = True)
+		self.assertIn(b"Mark as complete", response.data)
+		self.assertIn(b"Delete", response.data)
+
 
 	
 if __name__ == "__main__":
