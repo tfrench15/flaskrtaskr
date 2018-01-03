@@ -26,6 +26,7 @@ class MainTests(unittest.TestCase):
 	def test_404_error(self):
 		response = self.app.get('/this-route-does-not-exist')
 		self.assertEquals(response.status_code, 404)
+		self.assertIn(b'Sorry. There\'s nothing here.', response.data)
 
 	def test_500_error(self):
 		bad_user = User(
