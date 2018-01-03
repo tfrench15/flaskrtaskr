@@ -37,7 +37,7 @@ class TestUsers(unittest.TestCase):
 		return self.app.get('logout/', follow_redirects = True)
 
 	def create_user(self, name, email, password):
-		new_user = User(name = name, email = email, password = password)
+		new_user = User(name = name, email = email, password = bcrypt.generate_password_hash(password))
 		db.session.add(new_user)
 		db.session.commit()
 
@@ -45,7 +45,7 @@ class TestUsers(unittest.TestCase):
 		new_user = User(
 			name = 'Superman', 
 			email = 'admin@flaskrtaskr.com',
-			password = 'allpowerful',
+			password = bcrypt.generate_password_hash('allpowerful'),
 			role = 'admin'
 		)
 		db.session.add(new_user)
@@ -66,7 +66,7 @@ class TestUsers(unittest.TestCase):
 	#Testing Methods
 
 	def test_user_setup(self):
-		new_user = User("tim", "tim@tpfrench.com", "timfrench")
+		new_user = User("tim", "tim@tpfrench.com", bcrypt.generate_password_hash("timfrench"))
 		db.session.add(new_user)
 		db.session.commit()
 		test = db.session.query(User).all()

@@ -36,7 +36,7 @@ class TestTasks(unittest.TestCase):
 		return self.app.get('logout/', follow_redirects = True)
 
 	def create_user(self, name, email, password):
-		new_user = User(name = name, email = email, password = password)
+		new_user = User(name = name, email = email, password = bcrypt.generate_password_hash(password))
 		db.session.add(new_user)
 		db.session.commit()
 
@@ -44,7 +44,7 @@ class TestTasks(unittest.TestCase):
 		new_user = User(
 			name = 'Superman', 
 			email = 'admin@flaskrtaskr.com',
-			password = 'allpowerful',
+			password = bcrypt.generate_password_hash('allpowerful'),
 			role = 'admin'
 		)
 		db.session.add(new_user)
