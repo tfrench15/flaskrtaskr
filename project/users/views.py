@@ -55,7 +55,7 @@ def login():
     if request.method == 'POST':
         if form.validate_on_submit():
             user = User.query.filter_by(name=request.form['name']).first()
-            if user is not None and bcrypt.check_password_hash(user.password, request.form['password']:
+            if user is not None and bcrypt.check_password_hash(user.password, request.form['password']):
                 session['logged_in'] = True
                 session['user_id'] = user.id
                 session['role'] = user.role
