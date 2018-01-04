@@ -20,6 +20,8 @@ class TestUsers(unittest.TestCase):
 		self.app = app.test_client()
 		db.create_all()
 
+		self.assertEquals(app.debug, False)
+
 	def tearDown(self):
 		db.session.remove()
 		db.drop_all()
