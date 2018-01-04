@@ -1,7 +1,7 @@
 import os
 import unittest
 
-import app, db
+from project import app, db
 from project._config import basedir
 from project.models import User
 
@@ -36,11 +36,14 @@ class MainTests(unittest.TestCase):
 			)
 		db.session.add(bad_user)
 		db.session.commit()
-		response = self.login('Amanda', 'django')
-		self.assertEquals(response.status_code, 500)
-		self.assertNotIn(b'ValueError: Invalid salt', response.data)
-		self.assertIn(b'Something went terribly wrong', response.data)
-
+		self.assertRaises(ValueError, self.login, 'Amanda', 'django')
+		try:
+			response = self.login('Amanda', 'django')
+			self.assertEquals(response.status_code, 500)
+		except ValueError:
+			pass
+			
+		
 
 if __name__ == "__main__":
 	unittest.main()
