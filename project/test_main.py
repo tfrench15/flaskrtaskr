@@ -38,6 +38,8 @@ class MainTests(unittest.TestCase):
 		db.session.commit()
 		response = self.login('Amanda', 'django')
 		self.assertEquals(response.status_code, 500)
+		self.assertNotIn(b'ValueError: Invalid salt', response.data)
+		self.assertIn(b'Something went terribly wrong', response.data)
 
 
 if __name__ == "__main__":
