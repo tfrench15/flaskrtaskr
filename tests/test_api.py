@@ -1,7 +1,7 @@
 
 import os
 import unittest
-from datetime import data
+from datetime import date
 
 from project import app, db
 from project._config import basedir
@@ -33,6 +33,7 @@ class APITests(unittest.TestCase):
 				date(2018, 1, 10),
 				10,
 				1,
+				1,
 				date(2018, 1, 12)
 			)
 		)
@@ -43,6 +44,7 @@ class APITests(unittest.TestCase):
 				"Purchase Real Python",
 				date(2018, 1, 15),
 				10,
+				1,
 				1,
 				date(2018, 1, 17)
 			)
@@ -55,7 +57,16 @@ class APITests(unittest.TestCase):
 		self.assertEquals(response.status_code, 200)
 		self.assertEquals(response.mimetype, 'application/json')
 		self.assertIn(b'Run around in circles', response.data)
-		self.assertEquals(b'Purchase Real Python', response.data)
+		self.assertIn(b'Purchase Real Python', response.data)
+
+	def test_resource_endpoint_returns_correct_data(self):
+		self.add_tasks()
+		response = self.app.get('api/v1/tasks/2', follow_redirects = True)
+		self.assertEquals(response.status_code, 200)
+		self.assertEquals(response.mimetype, 'application/json')
+		self.assertIn(b'Purchase Real Python', response.data)
+		self.assertNotIn(b'Run around in circles', response.data)
+		
 
 
 if __name__ == "__main__":

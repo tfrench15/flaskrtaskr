@@ -1,0 +1,7 @@
+
+404 error at 05-01-2018 18:15:52: http://0.0.0.0:5000/favicon.ico 
+500 error at 05-01-2018 18:38:14: http://127.0.0.1:5000/api/v1/tasks/1 
+500 error at 05-01-2018 18:39:03: http://127.0.0.1:5000/api/v1/tasks/1 
+404 error at 05-01-2018 18:40:40: http://127.0.0.1:5000/tasks/api/v1/tasks 
+500 error at 05-01-2018 18:41:02: http://127.0.0.1:5000/api/v1/tasks/1 
+500 error at 05-01-2018 18:42:59: http://127.0.0.1:5000/api/v1/tasks/100 

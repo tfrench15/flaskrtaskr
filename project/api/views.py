@@ -45,4 +45,16 @@ def api_tasks():
 
 	return jsonify(items = json_results)
 
-	
+@api_blueprint.route('/api/v1/tasks/<int:task_id>')
+def task(task_id):
+	result = db.session.query(Task).filter_by(task_id = task_id).first()
+	json_result = {
+		'task_id': result.task_id,
+		'task name': result.name,
+		'due date': result.due_date,
+		'priority': result.priority,
+		'posted date': result.posted_date,
+		'status': result.status,
+		'user id': result.user_id
+	}
+	return jsonify(items = json_result)
