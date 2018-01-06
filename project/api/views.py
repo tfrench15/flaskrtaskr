@@ -1,6 +1,6 @@
 
 from functools import wraps
-from flask import flash, redirect, jsonify, url_for, session, Blueprint
+from flask import flash, redirect, jsonify, url_for, session, Blueprint, make_response
 
 from project import db
 from project.models import Task
@@ -58,8 +58,10 @@ def task(task_id):
 			'status': result.status,
 			'user id': result.user_id
 		}
-		return jsonify(items = json_result)
+		code = 200
+		
 	else:
-		result = {"error": "Element does not exist"}
-		return jsonify(result)
+		json_result = {"error": "Element does not exist"}
+		code = 404
+	return make_response(jsonify(json_result), code)
 
